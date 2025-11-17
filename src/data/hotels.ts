@@ -1,4 +1,6 @@
-export const hotels = {
+import type { Hotel } from "../types/data";
+
+export const hotels:Record<string, Hotel[]> = {
   Turkey: [
     { id: 101, name: "Hilton Istanbul", price: 120 },
     { id: 102, name: "Titanic Antalya", price: 90 },

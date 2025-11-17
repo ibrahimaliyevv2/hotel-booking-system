@@ -1,4 +1,6 @@
-export const meals = {
+import type { CountryMeal } from "../types/data";
+
+export const meals:Record<string, CountryMeal> = {
   Turkey: {
     dinner: [
       { id: 1, name: "Turkish Kebab", price: 15 },
