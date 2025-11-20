@@ -166,14 +166,16 @@ const BookingForm = () => {
             </label>
           ))}
         </div>
+        {errors?.boardTypeCode && (
+          <p className="text-red-500 text-sm mt-1">{errors.boardTypeCode}</p>
+        )}
       </div>
       {currentStep === 1 && (
         <div className="mt-8 flex justify-end">
           <button
             type="submit"
             className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl 
-               hover:bg-blue-700 active:bg-blue-800 transition shadow-sm 
-               hover:shadow-md"
+               hover:bg-blue-700 transition"
           >
             Next
           </button>
