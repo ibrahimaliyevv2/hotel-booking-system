@@ -1,5 +1,5 @@
 const DailyConfiguration = () => {
-  return <div></div>;
+  return <div>Test</div>;
 };
 
 export default DailyConfiguration;

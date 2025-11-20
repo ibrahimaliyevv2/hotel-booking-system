@@ -9,11 +9,14 @@ import {
 } from "../redux/slices/bookingSlice";
 import { boardTypes } from "../data/boardTypes";
 import { useState } from "react";
+import { nextStep } from "../redux/slices/stepSlice";
 
 const BookingForm = () => {
   const dispatch = useAppDispatch();
   const config = useAppSelector((state) => state.booking.booking);
   const [errors, setErrors] = useState<Record<string, string>>();
+
+  const currentStep = useAppSelector((state) => state.step.currentStep);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -33,7 +36,9 @@ const BookingForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(config);
-    validateForm();
+    if (validateForm()) {
+      dispatch(nextStep());
+    }
   };
 
   const today = new Date().toISOString().split("T")[0];
@@ -162,16 +167,18 @@ const BookingForm = () => {
           ))}
         </div>
       </div>
-      <div className="mt-8 flex justify-end">
-        <button
-          type="submit"
-          className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl 
+      {currentStep === 1 && (
+        <div className="mt-8 flex justify-end">
+          <button
+            type="submit"
+            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl 
                hover:bg-blue-700 active:bg-blue-800 transition shadow-sm 
                hover:shadow-md"
-        >
-          Next
-        </button>
-      </div>
+          >
+            Next
+          </button>
+        </div>
+      )}
     </form>
   );
 };

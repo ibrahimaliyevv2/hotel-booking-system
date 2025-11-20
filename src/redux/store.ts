@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import bookingReducer from "./slices/bookingSlice"
 import { useDispatch, useSelector } from "react-redux";
+import stepReducer from "./slices/stepSlice";
 
 export const store = configureStore({
     reducer: {
-        booking: bookingReducer
+        booking: bookingReducer,
+        step: stepReducer
     }
 });
 
