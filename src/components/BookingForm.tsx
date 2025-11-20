@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { countries } from "../data/countries";
 import {
+  generateDays,
   setBoardTypeCode,
   setCitizenship,
   setDays,
@@ -37,6 +38,7 @@ const BookingForm = () => {
     e.preventDefault();
     console.log(config);
     if (validateForm()) {
+      dispatch(generateDays());
       dispatch(nextStep());
     }
   };
