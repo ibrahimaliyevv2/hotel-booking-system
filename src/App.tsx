@@ -3,7 +3,7 @@ import BookingForm from "./components/BookingForm";
 function App() {
   return (
     <>
-      <p className="text-red-500">Hello</p>
+      <h1 className="text-gray-500 font-bold text-3xl text-center p-4">Hotel Booking System</h1>
       <BookingForm />
     </>
   );
