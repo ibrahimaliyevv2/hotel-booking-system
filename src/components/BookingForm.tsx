@@ -8,15 +8,38 @@ import {
   setStartDate,
 } from "../redux/slices/bookingSlice";
 import { boardTypes } from "../data/boardTypes";
+import { useState } from "react";
 
 const BookingForm = () => {
   const dispatch = useAppDispatch();
   const config = useAppSelector((state) => state.booking.booking);
+  const [errors, setErrors] = useState<Record<string, string>>();
 
-  console.log(config);
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    if (!config.citizenship) newErrors.citizenship = "Please select citizenship.";
+    if (!config.destination) newErrors.destination = "Please select destination country.";
+    if (!config.startDate) newErrors.startDate = "Please select start date.";
+    if (config.days < 1) {
+      newErrors.days = "Days to stay should be greater than 0.";
+    }
+    if (!config.boardTypeCode) newErrors.boardTypeCode = "Please select board type.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(config);
+    validateForm();
+  };
+
+  const today = new Date().toISOString().split("T")[0];
 
   return (
-    <form className="p-6">
+    <form className="p-6" onSubmit={handleSubmit}>
       <h1 className="text-xl mb-6 font-bold">Initial configuration</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -29,7 +52,7 @@ const BookingForm = () => {
           </label>
           <select
             id="citizenship"
-            value={config.citizenship}
+            value={config.citizenship ?? ""}
             onChange={(e) => dispatch(setCitizenship(e.target.value))}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
@@ -42,6 +65,9 @@ const BookingForm = () => {
               </option>
             ))}
           </select>
+          {errors?.citizenship && (
+            <p className="text-red-500 text-sm mt-1">{errors?.citizenship}</p>
+          )}
         </div>
         <div>
           <label
@@ -53,7 +79,7 @@ const BookingForm = () => {
           <select
             id="destination"
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            value={config.destination}
+            value={config.destination ?? ""}
             onChange={(e) => dispatch(setDestination(e.target.value))}
           >
             <option value="" disabled hidden>
@@ -65,6 +91,7 @@ const BookingForm = () => {
               </option>
             ))}
           </select>
+          {errors?.destination && <p className="text-red-500 text-sm mt-1">{errors.destination}</p>}
         </div>
         <div>
           <label
@@ -76,10 +103,12 @@ const BookingForm = () => {
           <input
             type="date"
             id="startDate"
+            min={today}
             value={config.startDate}
             onChange={(e) => dispatch(setStartDate(e.target.value))}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
+          {errors?.startDate && <p className="text-red-500 text-sm mt-1">{errors.startDate}</p>}
         </div>
         <div>
           <label
@@ -91,10 +120,12 @@ const BookingForm = () => {
           <input
             type="number"
             id="days"
+            min={1}
             value={config.days === 0 ? "" : config.days}
             onChange={(e) => dispatch(setDays(Number(e.target.value)))}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
+          {errors?.days && <p className="text-red-500 text-sm mt-1">{errors.days}</p>}
         </div>
       </div>
       <div className="mt-6">
@@ -130,6 +161,16 @@ const BookingForm = () => {
             </label>
           ))}
         </div>
+      </div>
+      <div className="mt-8 flex justify-end">
+        <button
+          type="submit"
+          className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl 
+               hover:bg-blue-700 active:bg-blue-800 transition shadow-sm 
+               hover:shadow-md"
+        >
+          Next
+        </button>
       </div>
     </form>
   );
