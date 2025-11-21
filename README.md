@@ -37,3 +37,5 @@ No code splitting or lazy loading (but only needed if app will be larger than cu
 No authentication
 
 While being larger need to use feature folder structure
+
+No tests provided
