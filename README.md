@@ -1,73 +1,29 @@
-# React + TypeScript + Vite
+# Hotel booking system task
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Setup instructions
 
-Currently, two official plugins are available:
+1. Install Node.js v16 and npm
+2. Clone repository to your device
+3. npm install & npm run dev (will be open http://localhost:5173)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technology choices
 
-## React Compiler
+React: Used for building UIs, as it is component based, state driven and enables reusability
+TypeScript: Provides static typing to catch errors early
+Vite: Faster than create-react-app and provides fast development server
+Redux Toolkit: Used for global state management for complex state logic
+Prettier and Eslint: Checking code quality, formatting and seeing errors early
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Architecture decisions
 
-## Expanding the ESLint configuration
+Component structure: Created feature based components and used with shared data
+State management: Used Redux slices for booking and stepping operations, also used simple states inside components
+Responsiveness: Made via tailwind breakpoints and mobileDayCard component
+Error handling: Created validation only in first part (BookingForm), do not used error boundaries
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Limitations
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Limited validation
+No code splitting or lazy loading (but only needed if app will be larger than current one)
+No authentication
+While being larger need to use feature folder structure
