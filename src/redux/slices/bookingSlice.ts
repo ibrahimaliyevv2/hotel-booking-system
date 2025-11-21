@@ -70,6 +70,7 @@ const bookingSlice = createSlice({
         day.lunchId = null;
       }
     },
+    resetBooking: () => initialState
   },
 });
 
@@ -83,6 +84,7 @@ export const {
   setHotel,
   setLunch,
   setDinner,
+  resetBooking
 } = bookingSlice.actions;
 
 export default bookingSlice.reducer;

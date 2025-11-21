@@ -3,11 +3,18 @@ import { useAppSelector, useAppDispatch } from "../redux/store";
 import { generateDays } from "../redux/slices/bookingSlice";
 import DayRow from "./DayRow";
 import MobileDayCard from "./MobileDayCard";
+import { nextStep } from "../redux/slices/stepSlice";
 
 const DailyConfiguration = () => {
   const dispatch = useAppDispatch();
   const dailySelections = useAppSelector((state) => state.booking.dailySelections);
   const booking = useAppSelector((state) => state.booking.booking);
+
+  const currentStep = useAppSelector((state) => state.step.currentStep);
+
+  const handleNextButton = () => {
+    dispatch(nextStep());
+  };
 
   useEffect(() => {
     if (dailySelections.length !== booking.days) {
@@ -44,12 +51,22 @@ const DailyConfiguration = () => {
         </table>
       </div>
 
-      {/* Mobile Cards */}
       <div className="md:hidden space-y-4">
         {dailySelections.map((day) => (
           <MobileDayCard key={day.dayIndex} day={day} />
         ))}
       </div>
+      {currentStep === 2 && (
+        <div className="mt-8 flex justify-end">
+          <button
+            onClick={handleNextButton}
+            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl 
+               hover:bg-blue-700 transition"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };
