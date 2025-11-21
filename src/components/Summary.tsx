@@ -2,18 +2,23 @@ import type React from "react";
 import { hotels } from "../data/hotels";
 import { meals } from "../data/meals";
 import { resetBooking } from "../redux/slices/bookingSlice";
-import { resetStep } from "../redux/slices/stepSlice";
+import { resetStep, setLoading } from "../redux/slices/stepSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { specificDate } from "../utils/toDateString";
 
 const Summary: React.FC = () => {
   const { booking, dailySelections } = useAppSelector((state) => state.booking);
   const currentStep = useAppSelector((state) => state.step.currentStep);
+  const isLoading = useAppSelector((state) => state.step.isLoading);
   const dispatch = useAppDispatch();
 
   const handleResetButton = () => {
-    dispatch(resetBooking());
-    dispatch(resetStep());
+    dispatch(setLoading(true));
+    setTimeout(() => {
+      dispatch(resetBooking());
+      dispatch(resetStep());
+      dispatch(setLoading(false));
+    }, 1000);
   };
 
   const getHotelPrice = (hotelId: number | null) => {
@@ -137,10 +142,11 @@ const Summary: React.FC = () => {
         <div className="mt-8 flex justify-end">
           <button
             onClick={handleResetButton}
-            className="px-6 py-3 bg-blue-400 text-white font-medium rounded-xl 
-               hover:bg-blue-700 transition"
+            disabled={isLoading}
+            className="px-6 py-3 bg-blue-400 text-white font-medium rounded-xl
+               hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Reset
+            {isLoading ? "Resetting..." : "Reset"}
           </button>
         </div>
       )}

@@ -6,6 +6,7 @@ import { useAppSelector } from "./redux/store";
 
 function App() {
   const step = useAppSelector((state) => state.step.currentStep);
+  const isLoading = useAppSelector((state) => state.step.isLoading);
 
   const step1Ref = useRef<HTMLDivElement>(null);
   const step2Ref = useRef<HTMLDivElement>(null);
@@ -20,6 +21,11 @@ function App() {
   return (
     <div className="container mx-auto p-4 space-y-8">
       <h1 className="text-gray-500 font-bold text-3xl text-center p-4">Hotel Booking System</h1>
+      {isLoading && (
+        <div className="flex justify-center items-center">
+          <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
       <div ref={step1Ref}>
         <BookingForm />
       </div>

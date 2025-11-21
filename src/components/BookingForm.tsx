@@ -10,7 +10,7 @@ import {
 } from "../redux/slices/bookingSlice";
 import { boardTypes } from "../data/boardTypes";
 import { useState } from "react";
-import { nextStep } from "../redux/slices/stepSlice";
+import { nextStep, setLoading } from "../redux/slices/stepSlice";
 
 const BookingForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -18,6 +18,7 @@ const BookingForm: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>();
 
   const currentStep = useAppSelector((state) => state.step.currentStep);
+  const isLoading = useAppSelector((state) => state.step.isLoading);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -38,8 +39,12 @@ const BookingForm: React.FC = () => {
     e.preventDefault();
     console.log(config);
     if (validateForm()) {
-      dispatch(generateDays());
-      dispatch(nextStep());
+      dispatch(setLoading(true));
+      setTimeout(() => {
+        dispatch(generateDays());
+        dispatch(nextStep());
+        dispatch(setLoading(false));
+      }, 1000); // 1 second loading
     }
   };
 
@@ -176,10 +181,11 @@ const BookingForm: React.FC = () => {
         <div className="mt-8 flex justify-end">
           <button
             type="submit"
-            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl 
-               hover:bg-blue-700 transition"
+            disabled={isLoading}
+            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl
+               hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Next
+            {isLoading ? "Loading..." : "Next"}
           </button>
         </div>
       )}
