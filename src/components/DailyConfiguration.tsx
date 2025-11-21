@@ -5,7 +5,7 @@ import DayRow from "./DayRow";
 import MobileDayCard from "./MobileDayCard";
 import { nextStep } from "../redux/slices/stepSlice";
 
-const DailyConfiguration = () => {
+const DailyConfiguration: React.FC = () => {
   const dispatch = useAppDispatch();
   const dailySelections = useAppSelector((state) => state.booking.dailySelections);
   const booking = useAppSelector((state) => state.booking.booking);

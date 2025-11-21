@@ -12,7 +12,7 @@ import { boardTypes } from "../data/boardTypes";
 import { useState } from "react";
 import { nextStep } from "../redux/slices/stepSlice";
 
-const BookingForm = () => {
+const BookingForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const config = useAppSelector((state) => state.booking.booking);
   const [errors, setErrors] = useState<Record<string, string>>();

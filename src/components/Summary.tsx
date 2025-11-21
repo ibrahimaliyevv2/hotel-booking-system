@@ -1,3 +1,4 @@
+import type React from "react";
 import { hotels } from "../data/hotels";
 import { meals } from "../data/meals";
 import { resetBooking } from "../redux/slices/bookingSlice";
@@ -5,7 +6,7 @@ import { resetStep } from "../redux/slices/stepSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { specificDate } from "../utils/toDateString";
 
-const Summary = () => {
+const Summary: React.FC = () => {
   const { booking, dailySelections } = useAppSelector((state) => state.booking);
   const currentStep = useAppSelector((state) => state.step.currentStep);
   const dispatch = useAppDispatch();
